@@ -161,7 +161,7 @@ class NodeInfoView : RecyclerView {
         when (attr) {
             "className" -> value = value.replace("^android\\.widget\\.".toRegex(), "")
             "actionNames" -> return "action(${value.split("\n").joinToString(", ") { "'$it'" }})"
-            "bounds" -> return "$attr(${value.replace("[^\\d,]".toRegex(), "").replace(",", ", ")})"
+            "bounds" -> return "${value.replace("[^\\d,]".toRegex(), "").replace(",", ",")}"
             "center" -> {
                 val (x, y) = value.split(Regex(",\\s*")).map {
                     it.replace(Regex("[^\\d.]+"), "").toDouble()
@@ -184,8 +184,8 @@ class NodeInfoView : RecyclerView {
             }
         }
         return when (NodeInfo::class.java.getDeclaredField(attr).type) {
-            java.lang.String::class.java -> "$attr('$value')"
-            else -> "$attr($value)"
+            java.lang.String::class.java -> "$value"
+            else -> "$value"
         }
     }
 
